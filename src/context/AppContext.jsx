@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+const apiUrl = import.meta.env.VITE_API_URL
 
 const AppContext = createContext();
 
@@ -10,6 +11,8 @@ export const AppProvider = ({ children }) => {
   const [dataPCA, setDataPCA] = useState([]);
   const [labelsPCA, setLabelsPCA] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [algorithm, setAlgorithm] = useState("");
+  const [dataset, setDataset] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,8 +20,8 @@ export const AppProvider = ({ children }) => {
       try {
         // Fetch both algorithms and datasets
         const [algorithmsRes, datasetsRes] = await Promise.all([
-          fetch("/api/cluster/algorithms"),
-          fetch("/api/cluster/dataset"),
+          fetch(`${apiUrl}/cluster/algorithms`),
+          fetch(`${apiUrl}/cluster/dataset`),
         ]);
 
         const algorithmsData = await algorithmsRes.json();
@@ -41,7 +44,7 @@ export const AppProvider = ({ children }) => {
     setLoading(true);
     try {
       const fetchClusterData = async (usePCA) => {
-        const response = await fetch("/api/cluster", {
+        const response = await fetch(`${apiUrl}/cluster`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,6 +88,10 @@ export const AppProvider = ({ children }) => {
         labels,
         dataPCA,
         labelsPCA,
+        algorithm,
+        dataset,
+        setAlgorithm,
+        setDataset,
         clusterData,
       }}
     >

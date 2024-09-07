@@ -1,16 +1,30 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
 const Chart = ({ data, labels }) => {
   const svgRef = useRef();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     if (!data || !labels) return;
+    console.log("in use effect");
 
-    console.log("starting plot");
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+
     const margin = { top: 20, right: 30, bottom: 50, left: 50 };
-    const width = 600 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+    let height = 400 - margin.top - margin.bottom;
+    let width;
+
+    if (screenWidth < 768) {
+      width = 460 - margin.left - margin.right;
+    } else if (screenWidth < 992) {
+      width = 740 - margin.left - margin.right;
+    } else if (screenWidth < 1100) {
+      width = 480 - margin.left - margin.right;
+    } else {
+      width = 540 - margin.left - margin.right;
+    }
 
     // Clear previous SVG elements
     d3.select(svgRef.current).selectAll("*").remove();
@@ -56,7 +70,12 @@ const Chart = ({ data, labels }) => {
       .attr("cy", (d) => yScale(d[1]))
       .attr("r", 5)
       .attr("fill", (_, i) => colorScale(labels[i]));
-  }, [data, labels]);
+
+    // Clean up event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [data, labels, screenWidth]);
 
   return <svg ref={svgRef}></svg>;
 };
