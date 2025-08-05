@@ -1,0 +1,16 @@
+*/venv/
+*/node_modules/
+*/.git/
+*/.gitignore
+*/README.md
+*/__pycache__/
+*/.pytest_cache/
+*/.coverage
+*/coverage/
+*/.env
+*/.env.local
+*/.env.production
+*/dist/
+*/build/
+*/.DS_Store
+*/Thumbs.db
