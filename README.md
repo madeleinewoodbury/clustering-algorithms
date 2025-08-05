@@ -4,6 +4,8 @@ A full-stack application for visualizing and comparing different clustering algo
 
 This application provides a set of endpoints for running various clustering algorithms using `scikit-learn`, allowing users to perform clustering tasks on different datasets and visualize the results interactively.
 
+![Clustering Application Screenshot](assets/screenshot.png)
+
 ## Features
 
 - **Multiple Clustering Algorithms**: KMeans, DBSCAN, Birch, and Mean Shift
@@ -27,7 +29,7 @@ This application provides a set of endpoints for running various clustering algo
 ```bash
 # Clone the repository
 git clone https://github.com/madeleinewoodbury/clustering-algorithms.git
-cd clustering
+cd clustering-algorithms
 
 # Start both services
 docker-compose up
